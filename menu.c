@@ -1,81 +1,44 @@
-#include <stdio.h>
+// This file reads from the global menu array and prints the full restaurant menu
 
-int main(){
+#include "order.h"
 
-    
-printf(
-"+========================================================================+\n"
-"| [G] Grilled & Inasal - Chicken/Pork [UNLI RICE]      |      Price      |\n"
-"|========================================================================|\n"
-"| [G1] Hita Inasal                                     |    - P100.00    |\n"
-"| [G2] Pitso Inasal                                    |    - P105.00    |\n"
-"| [G3] Porkchop Inasal                                 |    - P105.00    |\n"
-"|                                                                        |\n"
-"+========================================================================+\n"
-"| [S] Sizzling & Seafood Specialties [UNLI RICE]       |      Price      |\n"
-"|========================================================================|\n"
-"| [S1] Sisig Platter                                   |    - P190.00    |\n"
-"| [S2] Sizzling Pusit Platter                          |    - P230.00    |\n"
-"| [S3] Fried Tilapia                                   |    - P90.00     |\n"
-"| [S4] Asado Shrimp                                    |    - P225.00    |\n"
-"| [S5] Fish Steak                                      |    - P100.00    |\n"
-"| [S6] Adobong Pusit                                   |    - P100.00    |\n"
-"|                                                                        |\n"
-"+========================================================================+\n"
-"| [B] Breakfast Silog Meals [NOT UNLI RICE]            |      Price      |\n"
-"|========================================================================|\n"
-"| [B1] Tapsilog (Beef Tapa)                            |    - P85.00     |\n"
-"| [B2] Tocilog (Pork Tocino)                           |    - P75.00     |\n"
-"| [B3] Longsilog (Longganisa)                          |    - P70.00     |\n"
-"| [B4] Bangsilog (Milkfish)                            |    - P85.00     |\n"
-"| [B5] Hamsilog (Ham)                                  |    - P65.00     |\n"
-"| [B6] Hotsilog (Hotdog)                               |    - P60.00     |\n"
-"|                                                                        |\n"
-"+========================================================================+\n"
-"| [N] Pancit & Noodles [NOT A RICE MEAL]               |      Price      |\n"
-"|========================================================================|\n"
-"| [N1] Spaghetti                                       |    - P60.00     |\n"
-"| [N2] Palabok                                         |    - P65.00     |\n"
-"| [N3] Carbonara                                       |    - P75.00     |\n"
-"| [N4] Lomi                                            |    - P70.00     |\n"
-"|                                                                        |\n"
-"+========================================================================+\n"
-"| [E] Extras & Sides [NOT A RICE MEAL]                 |      Price      |\n"
-"|========================================================================|\n"
-"| [E1] Extra Egg                                       |    - P15.00     |\n"
-"| [E2] Extra Rice (Single)                             |    - P15.00     |\n"
-"| [E3] Softdrinks                                      |    - P20.00     |\n"
-"| [E4] Bottled Water                                   |    - P15.00     |\n"
-"+========================================================================+\n"
-"|                             ADD NEW ORDER                              |\n"
-"+========================================================================+\n"
-"| Order ID   : #1001                                                     |\n"
-"| Timestamp  : 2026-04-28 18:49:45                                       |\n"
-"|                                                                        |\n"
-"| Enter Item ID (e.g. G1, S2, B3): G1                                    |\n"
-"| Order Item : Hita Inasal [UNLI RICE]                                   |\n"
-"| Price      : P100.00                                                   |\n"
-"|                                                                        |\n"
-"| Enter Quantity: 2                                                      |\n"
-"+========================================================================+\n"
-"|                          ORDER SUMMARY                                 |\n"
-"+========================================================================+\n"
-"|  CODE  |      ITEM DESCRIPTION       |  QTY  |   PRICE   |    TOTAL    |\n"
-"|--------|-----------------------------|-------|-----------|-------------|\n"
-"|   G1   | Hita Inasal [UNLI RICE]     |   2   |  P100.00  |   P200.00   |\n"
-"+========================================================================+\n"
-"|                                             GRAND TOTAL:   P200.00     |\n"
-"+========================================================================+\n"
-"|                                                                        |\n"
-"| [1] Confirm & Add to Queue                                             |\n"
-"| [2] Add More Items                                                     |\n"
-"| [0] Cancel Order                                                       |\n"
-"|                                                                        |\n"
-"| Enter your choice: 1                                                   |\n"
-"+========================================================================+\n"
-"| >> SUCCESS: Order #1001 has been added to Pending (PREPARATION).       |\n"
-"+========================================================================+\n"
-);
-
-    return 0;
+void show_menu(void) {
+    printf("+==================================================================================+\n");
+    printf("|                                    M E N U                                       |\n");
+    printf("+==================================================================================+\n");
+    printf("|  [G] Grilled & Inasal - Chicken/Pork                    |          Price         |\n");
+    printf("+==================================================================================+\n");
+    printf("|  [G1] Hita Inasal                                       |        - P100.00       |\n");
+    printf("|  [G2] Pitso Inasal                                      |        - P105.00       |\n");
+    printf("|  [G3] Porkchop Inasal                                   |        - P105.00       |\n");
+    printf("+==================================================================================+\n");
+    printf("|  [S] Sizzling & Seafood Specialties                     |          Price         |\n");
+    printf("+==================================================================================+\n");
+    printf("|  [S1] Sisig Platter                                     |        - P190.00       |\n");
+    printf("|  [S2] Sizzling Pusit Platter                            |        - P230.00       |\n");
+    printf("|  [S3] Fried Tilapia                                     |        - P90.00        |\n");
+    printf("|  [S4] Asado Shrimp                                      |        - P225.00       |\n");
+    printf("|  [S5] Fish Steak                                        |        - P100.00       |\n");
+    printf("|  [S6] Adobong Pusit                                     |        - P100.00       |\n");
+    printf("+==================================================================================+\n");
+    printf("|  [B] Breakfast Silog Meals                              |          Price         |\n");
+    printf("+==================================================================================+\n");
+    printf("|  [B1] Tapsilog                                          |        - P85.00        |\n");
+    printf("|  [B2] Tocilog                                           |        - P75.00        |\n");
+    printf("|  [B3] Longsilog                                         |        - P70.00        |\n");
+    printf("|  [B4] Bangsilog                                         |        - P85.00        |\n");
+    printf("|  [B5] Hamsilog                                          |        - P65.00        |\n");
+    printf("|  [B6] Hotsilog                                          |        - P60.00        |\n");
+    printf("+==================================================================================+\n");
+    printf("|  [N] Pancit & Noodles                                   |          Price         |\n");
+    printf("+==================================================================================+\n");
+    printf("|  [N1] Spaghetti                                         |        - P60.00        |\n");
+    printf("|  [N2] Palabok                                           |        - P65.00        |\n");
+    printf("|  [N3] Carbonara                                         |        - P75.00        |\n");
+    printf("|  [N4] Lomi                                              |        - P70.00        |\n");
+    printf("+==================================================================================+\n");
+    printf("|  [E] Extras & Sides                                     |          Price         |\n");
+    printf("+==================================================================================+\n");
+    printf("|  [E1] Softdrinks                                        |        - P20.00        |\n");
+    printf("|  [E2] Halo Halo                                         |        - P45.00        |\n");
 }
