@@ -5,12 +5,14 @@
 #include "order.h"
 
 // Helper: print all orders in a queue after sorting.
-static void display_sorted_queue(Queue *q, const char *stage_name) {
+static void display_sorted_queue(Queue *q, const char *stage_name)
+{
     printf("+==================================================================================+\n");
     printf("|  %-80s|\n", stage_name);
     printf("+==================================================================================+\n");
 
-    if (q->count == 0) {
+    if (q->count == 0)
+    {
         printf("\n>>  NO ORDERS IN THIS STAGE.\n\n");
         printf("+==================================================================================+\n");
         return;
@@ -21,10 +23,13 @@ static void display_sorted_queue(Queue *q, const char *stage_name) {
     printf("+==================================================================================+\n");
 
     OrderNode *cur = q->front;
-    while (cur != NULL) {
+    while (cur != NULL)
+    {
         const char *status_str = "PENDING";
-        if (cur->status == STATUS_PREPARING) status_str = "PREPARING";
-        else if (cur->status == STATUS_READY) status_str = "READY";
+        if (cur->status == STATUS_PREPARING)
+            status_str = "PREPARING";
+        else if (cur->status == STATUS_READY)
+            status_str = "READY";
 
         printf("| #%-3d | %-19s | P%-9.2f | %-14s |\n",
                cur->order_id, cur->timestamp, cur->grand_total, status_str);
@@ -33,7 +38,8 @@ static void display_sorted_queue(Queue *q, const char *stage_name) {
     printf("+==================================================================================+\n");
 }
 
-void sort_display(void) {
+void sort_display(void)
+{
     clear_screen();
 
     printf("+==================================================================================+\n");
@@ -52,8 +58,10 @@ void sort_display(void) {
     printf("\n    Enter your choice: ");
 
     int queue_choice;
-    if (scanf("%d", &queue_choice) != 1) queue_choice = -1;
-    if (queue_choice == 0) return;
+    if (scanf("%d", &queue_choice) != 1)
+        queue_choice = -1;
+    if (queue_choice == 0)
+        return;
 
     // Choose sort key.
     printf("\n");
@@ -64,7 +72,8 @@ void sort_display(void) {
     printf("\n    Enter your choice: ");
 
     int sort_choice;
-    if (scanf("%d", &sort_choice) != 1) sort_choice = 1;
+    if (scanf("%d", &sort_choice) != 1)
+        sort_choice = 1;
 
     clear_screen();
 
@@ -77,23 +86,32 @@ void sort_display(void) {
     printf("\n");
 
     // Apply bubble sort and display the selected queue.
-    if (queue_choice == 1 || queue_choice == 4) {
-        if (sort_choice == 1) queue_sort_by_id(&g_pending);
-        else                  queue_sort_by_timestamp(&g_pending);
+    if (queue_choice == 1 || queue_choice == 4)
+    {
+        if (sort_choice == 1)
+            queue_sort_by_id(&g_pending);
+        else
+            queue_sort_by_timestamp(&g_pending);
         display_sorted_queue(&g_pending, "PENDING ORDERS");
         printf("\n");
     }
 
-    if (queue_choice == 2 || queue_choice == 4) {
-        if (sort_choice == 1) queue_sort_by_id(&g_preparing);
-        else                  queue_sort_by_timestamp(&g_preparing);
+    if (queue_choice == 2 || queue_choice == 4)
+    {
+        if (sort_choice == 1)
+            queue_sort_by_id(&g_preparing);
+        else
+            queue_sort_by_timestamp(&g_preparing);
         display_sorted_queue(&g_preparing, "PREPARING ORDERS");
         printf("\n");
     }
 
-    if (queue_choice == 3 || queue_choice == 4) {
-        if (sort_choice == 1) queue_sort_by_id(&g_ready);
-        else                  queue_sort_by_timestamp(&g_ready);
+    if (queue_choice == 3 || queue_choice == 4)
+    {
+        if (sort_choice == 1)
+            queue_sort_by_id(&g_ready);
+        else
+            queue_sort_by_timestamp(&g_ready);
         display_sorted_queue(&g_ready, "READY TO PICK UP ORDERS");
         printf("\n");
     }

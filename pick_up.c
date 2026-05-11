@@ -4,7 +4,8 @@
 
 #include "order.h"
 
-void order_pickup(void) {
+void order_pickup(void)
+{
     clear_screen();
 
     printf("+==================================================================================+\n");
@@ -13,19 +14,23 @@ void order_pickup(void) {
 
     int id;
     printf("    Enter Order ID (number only, e.g. 1234) or [0] to finish: ");
-    if (scanf("%d", &id) != 1) {
+    if (scanf("%d", &id) != 1)
+    {
         printf(">>  ERROR: INVALID INPUT.\n");
-        while (getchar() != '\n'); // Clear input buffer
+        while (getchar() != '\n')
+            ; // Clear input buffer
         press_enter();
         return;
     }
 
-    if (id == 0) return;
+    if (id == 0)
+        return;
 
     // Linear search in the ready queue (As per Searching_Sorting_Algo_Module.pdf)
     OrderNode *order = queue_find_by_id(&g_ready, id);
 
-    if (!order) {
+    if (!order)
+    {
         printf(">>  NOT FOUND: ORDER #%03d IS NOT IN READY QUEUE.\n", id);
         press_enter();
         return;
@@ -44,9 +49,11 @@ void order_pickup(void) {
     printf("\n    Enter your choice: ");
 
     int choice;
-    if (scanf("%d", &choice) != 1) choice = -1;
+    if (scanf("%d", &choice) != 1)
+        choice = -1;
 
-    if (choice == 1) {
+    if (choice == 1)
+    {
         // 1. Remove from the ready queue (Unlink the node)
         queue_remove_node(&g_ready, id);
 
@@ -60,26 +67,33 @@ void order_pickup(void) {
         printf("+==================================================================================+\n");
         printf("|>> SUCCESS: ORDER #%03d HAS BEEN PICKED UP.                                        |\n", id);
         printf("+==================================================================================+\n");
-
-    } else if (choice == 0) {
+    }
+    else if (choice == 0)
+    {
         // Cancel — ask for confirmation.
         char yn;
         printf("\n>>  WARNING: ARE YOU SURE YOU WANT TO CANCEL PICK UP FOR ORDER #%03d? (Y/N): ", id);
         scanf(" %c", &yn);
 
-        if (yn == 'Y' || yn == 'y') {
+        if (yn == 'Y' || yn == 'y')
+        {
             printf("\n>>  PICK UP FOR ORDER #%03d HAS BEEN CANCELLED. RETURNING TO MAIN MENU...\n", id);
-        } else {
+        }
+        else
+        {
             // Restart function if user chooses 'N'
             order_pickup();
             return;
         }
-
-    } else {
+    }
+    else
+    {
         printf(">>  INVALID CHOICE.\n");
     }
 
     // Wait for user before returning to dashboard
     printf("\n    Press Enter to continue...");
-    while (getchar() != '\n'); getchar();
+    while (getchar() != '\n')
+        ;
+    getchar();
 }

@@ -4,13 +4,14 @@
 #include "order.h"
 #include <stdlib.h>
 #include <time.h>
+#include <ctype.h>
 
 // ===== GLOBAL VARIABLES =====
 Queue g_pending = {NULL, NULL, 0};
 Queue g_preparing = {NULL, NULL, 0};
 Queue g_ready = {NULL, NULL, 0};
 OrderNode *g_history_head = NULL;
-int next_id = 001;
+int next_id = 1;
 int pending_count = 0;
 int preparing_count = 0;
 int ready_count = 0;
@@ -40,45 +41,61 @@ MenuItem menu_items[] = {
     {"N4", "Lomi", 70.00},
     {"E1", "Softdrinks", 20.00},
     {"E2", "Halo Halo", 45.00},
-    {"", "", 0}
-};
+    {"", "", 0}};
 
 // ===== SCREEN UTILITIES =====
-void clear_screen(void) {
+void clear_screen(void)
+{
     system("cls");
 }
 
-void press_enter(void) {
+void press_enter(void)
+{
     printf("\n    Press Enter to continue...");
-    while (getchar() != '\n');
+    while (getchar() != '\n')
+        ;
     getchar();
 }
 
 // ===== TIMESTAMP UTILITIES =====
-void get_timestamp(char *buffer, size_t size) {
+void get_timestamp(char *buffer, size_t size)
+{
     time_t now = time(NULL);
     struct tm *timeinfo = localtime(&now);
     strftime(buffer, size, "%Y-%m-%d %H:%M:%S", timeinfo);
 }
 
 // ===== MENU UTILITIES =====
-MenuItem* find_menu_item(const char *code) {
-    for (int i = 0; menu_items[i].code[0] != '\0'; i++) {
-        if (strcmp(menu_items[i].code, code) == 0) {
+MenuItem *find_menu_item(const char *code)
+{
+    for (int i = 0; menu_items[i].code[0] != '\0'; i++)
+    {
+        if (strcmp(menu_items[i].code, code) == 0)
+        {
             return &menu_items[i];
         }
     }
     return NULL;
 }
 
-void display_menu(void) {
+// Convert the first character to uppercase
+void convrtUp(char *input) {
+    for (int i = 0; input[i] != '\0'; i++) {  // 'i' starts at 0 and goes up 0, 1, 2... until it hits the end of the string ('\0')
+        input[i] = toupper(input[i]);
+    }
+}
+
+void display_menu(void)
+{
     show_menu();
 }
 
 // ===== ORDER NODE UTILITIES =====
-OrderNode* create_order_node(void) {
-    OrderNode *node = (OrderNode*)malloc(sizeof(OrderNode));
-    if (node) {
+OrderNode *create_order_node(void)
+{
+    OrderNode *node = (OrderNode *)malloc(sizeof(OrderNode));
+    if (node)
+    {
         node->order_id = 0;
         strcpy(node->timestamp, "");
         strcpy(node->prepared_timestamp, "");
@@ -92,11 +109,13 @@ OrderNode* create_order_node(void) {
     return node;
 }
 
-int get_next_id(void) {
+int get_next_id(void)
+{
     return next_id++;
 }
 
-void print_timestamps(OrderNode *order) {
+void print_timestamps(OrderNode *order)
+{
     printf("\n    Timestamps:\n");
     printf("    - Order Placed   : %s\n", order->timestamp);
     if (order->prepared_timestamp[0] != '\0')
@@ -107,7 +126,8 @@ void print_timestamps(OrderNode *order) {
         printf("    - Picked Up      : %s\n", order->pickup_timestamp);
 }
 
-void print_order_summary(OrderNode *order) {
+void print_order_summary(OrderNode *order)
+{
     printf("\n    Order Summary:\n");
     printf("    Order ID   : #%03d\n", order->order_id);
     printf("    Total Items: %d\n", order->item_count);
@@ -116,10 +136,13 @@ void print_order_summary(OrderNode *order) {
 
 // ===== QUEUE OPERATIONS =====
 // Find order by ID in queue using linear search
-OrderNode* queue_find_by_id(Queue *queue, int id) {
+OrderNode *queue_find_by_id(Queue *queue, int id)
+{
     OrderNode *cur = queue->front;
-    while (cur != NULL) {
-        if (cur->order_id == id) {
+    while (cur != NULL)
+    {
+        if (cur->order_id == id)
+        {
             return cur;
         }
         cur = cur->next;
@@ -128,28 +151,35 @@ OrderNode* queue_find_by_id(Queue *queue, int id) {
 }
 
 // Remove a specific node from queue by ID
-void queue_remove_node(Queue *queue, int id) {
-    if (queue->front == NULL) return;
-    
+void queue_remove_node(Queue *queue, int id)
+{
+    if (queue->front == NULL)
+        return;
+
     // If the front node is the one to remove
-    if (queue->front->order_id == id) {
+    if (queue->front->order_id == id)
+    {
         OrderNode *temp = queue->front;
         queue->front = queue->front->next;
-        if (queue->front == NULL) {
+        if (queue->front == NULL)
+        {
             queue->rear = NULL;
         }
         queue->count--;
         return;
     }
-    
+
     // Otherwise, search through the list
     OrderNode *prev = queue->front;
     OrderNode *cur = queue->front->next;
-    
-    while (cur != NULL) {
-        if (cur->order_id == id) {
+
+    while (cur != NULL)
+    {
+        if (cur->order_id == id)
+        {
             prev->next = cur->next;
-            if (cur == queue->rear) {
+            if (cur == queue->rear)
+            {
                 queue->rear = prev;
             }
             queue->count--;
@@ -161,15 +191,20 @@ void queue_remove_node(Queue *queue, int id) {
 }
 
 // Add node to rear of queue
-void queue_enqueue(Queue *queue, OrderNode *node) {
-    if (!node) return;
-    
+void queue_enqueue(Queue *queue, OrderNode *node)
+{
+    if (!node)
+        return;
+
     node->next = NULL;
-    
-    if (queue->rear == NULL) {
+
+    if (queue->rear == NULL)
+    {
         // Queue is empty
         queue->front = queue->rear = node;
-    } else {
+    }
+    else
+    {
         // Add to rear
         queue->rear->next = node;
         queue->rear = node;
@@ -178,19 +213,24 @@ void queue_enqueue(Queue *queue, OrderNode *node) {
 }
 
 // Bubble sort queue by order ID (ascending)
-void queue_sort_by_id(Queue *queue) {
-    if (queue->count <= 1) return;
-    
+void queue_sort_by_id(Queue *queue)
+{
+    if (queue->count <= 1)
+        return;
+
     int swapped;
     OrderNode *ptr1;
     OrderNode *lptr = NULL;
-    
-    do {
+
+    do
+    {
         swapped = 0;
         ptr1 = queue->front;
-        
-        while (ptr1->next != lptr) {
-            if (ptr1->order_id > ptr1->next->order_id) {
+
+        while (ptr1->next != lptr)
+        {
+            if (ptr1->order_id > ptr1->next->order_id)
+            {
                 // Swap data
                 int temp_id = ptr1->order_id;
                 char temp_timestamp[25];
@@ -201,13 +241,13 @@ void queue_sort_by_id(Queue *queue) {
                 int temp_item_count = ptr1->item_count;
                 float temp_total = ptr1->grand_total;
                 int temp_status = ptr1->status;
-                
+
                 strcpy(temp_timestamp, ptr1->timestamp);
                 strcpy(temp_prepared, ptr1->prepared_timestamp);
                 strcpy(temp_ready, ptr1->ready_timestamp);
                 strcpy(temp_pickup, ptr1->pickup_timestamp);
                 memcpy(temp_items, ptr1->items, sizeof(OrderItem) * 50);
-                
+
                 ptr1->order_id = ptr1->next->order_id;
                 strcpy(ptr1->timestamp, ptr1->next->timestamp);
                 strcpy(ptr1->prepared_timestamp, ptr1->next->prepared_timestamp);
@@ -217,7 +257,7 @@ void queue_sort_by_id(Queue *queue) {
                 ptr1->item_count = ptr1->next->item_count;
                 ptr1->grand_total = ptr1->next->grand_total;
                 ptr1->status = ptr1->next->status;
-                
+
                 ptr1->next->order_id = temp_id;
                 strcpy(ptr1->next->timestamp, temp_timestamp);
                 strcpy(ptr1->next->prepared_timestamp, temp_prepared);
@@ -227,7 +267,7 @@ void queue_sort_by_id(Queue *queue) {
                 ptr1->next->item_count = temp_item_count;
                 ptr1->next->grand_total = temp_total;
                 ptr1->next->status = temp_status;
-                
+
                 swapped = 1;
             }
             ptr1 = ptr1->next;
@@ -237,19 +277,24 @@ void queue_sort_by_id(Queue *queue) {
 }
 
 // Bubble sort queue by timestamp (ascending)
-void queue_sort_by_timestamp(Queue *queue) {
-    if (queue->count <= 1) return;
-    
+void queue_sort_by_timestamp(Queue *queue)
+{
+    if (queue->count <= 1)
+        return;
+
     int swapped;
     OrderNode *ptr1;
     OrderNode *lptr = NULL;
-    
-    do {
+
+    do
+    {
         swapped = 0;
         ptr1 = queue->front;
-        
-        while (ptr1->next != lptr) {
-            if (strcmp(ptr1->timestamp, ptr1->next->timestamp) > 0) {
+
+        while (ptr1->next != lptr)
+        {
+            if (strcmp(ptr1->timestamp, ptr1->next->timestamp) > 0)
+            {
                 // Swap data
                 int temp_id = ptr1->order_id;
                 char temp_timestamp[25];
@@ -260,13 +305,13 @@ void queue_sort_by_timestamp(Queue *queue) {
                 int temp_item_count = ptr1->item_count;
                 float temp_total = ptr1->grand_total;
                 int temp_status = ptr1->status;
-                
+
                 strcpy(temp_timestamp, ptr1->timestamp);
                 strcpy(temp_prepared, ptr1->prepared_timestamp);
                 strcpy(temp_ready, ptr1->ready_timestamp);
                 strcpy(temp_pickup, ptr1->pickup_timestamp);
                 memcpy(temp_items, ptr1->items, sizeof(OrderItem) * 50);
-                
+
                 ptr1->order_id = ptr1->next->order_id;
                 strcpy(ptr1->timestamp, ptr1->next->timestamp);
                 strcpy(ptr1->prepared_timestamp, ptr1->next->prepared_timestamp);
@@ -276,7 +321,7 @@ void queue_sort_by_timestamp(Queue *queue) {
                 ptr1->item_count = ptr1->next->item_count;
                 ptr1->grand_total = ptr1->next->grand_total;
                 ptr1->status = ptr1->next->status;
-                
+
                 ptr1->next->order_id = temp_id;
                 strcpy(ptr1->next->timestamp, temp_timestamp);
                 strcpy(ptr1->next->prepared_timestamp, temp_prepared);
@@ -286,7 +331,7 @@ void queue_sort_by_timestamp(Queue *queue) {
                 ptr1->next->item_count = temp_item_count;
                 ptr1->next->grand_total = temp_total;
                 ptr1->next->status = temp_status;
-                
+
                 swapped = 1;
             }
             ptr1 = ptr1->next;
@@ -297,15 +342,21 @@ void queue_sort_by_timestamp(Queue *queue) {
 
 // ===== HISTORY LINKED LIST OPERATIONS =====
 // Append order node to history linked list
-void history_append(OrderNode **head, OrderNode *node) {
-    if (!node) return;
-    
-    if (*head == NULL) {
+void history_append(OrderNode **head, OrderNode *node)
+{
+    if (!node)
+        return;
+
+    if (*head == NULL)
+    {
         *head = node;
         node->next = NULL;
-    } else {
+    }
+    else
+    {
         OrderNode *cur = *head;
-        while (cur->next != NULL) {
+        while (cur->next != NULL)
+        {
             cur = cur->next;
         }
         cur->next = node;
@@ -316,10 +367,13 @@ void history_append(OrderNode **head, OrderNode *node) {
 }
 
 // Find order in history by ID using linear search
-OrderNode* history_find_by_id(OrderNode **head, int id) {
+OrderNode *history_find_by_id(OrderNode **head, int id)
+{
     OrderNode *cur = *head;
-    while (cur != NULL) {
-        if (cur->order_id == id) {
+    while (cur != NULL)
+    {
+        if (cur->order_id == id)
+        {
             return cur;
         }
         cur = cur->next;
@@ -328,12 +382,14 @@ OrderNode* history_find_by_id(OrderNode **head, int id) {
 }
 
 // Get proper reference for history operations
-OrderNode** get_history_head(void) {
+OrderNode **get_history_head(void)
+{
     return &g_history_head;
 }
 
 // Update count variables based on queue states
-void update_counts(void) {
+void update_counts(void)
+{
     pending_count = g_pending.count;
     preparing_count = g_preparing.count;
     ready_count = g_ready.count;

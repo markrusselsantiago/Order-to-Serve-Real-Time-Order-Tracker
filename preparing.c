@@ -1,4 +1,3 @@
-// preparing.c
 // This file moves an order from the pending queue to the preparing queue.
 // It records the preparation start timestamp and uses linear search to find the order.
 
@@ -12,15 +11,17 @@ void order_preparing(void) {
     printf("+==================================================================================+\n");
 
     int id;
-    printf("    Enter Order ID (number only, e.g. 123) or [0] to finish: ");
+    printf("    Enter Order ID (number only, e.g. 123) or [0] to finish: #");
     if (scanf("%d", &id) != 1) {
         printf(">>  ERROR: INVALID INPUT.\n");
-        while (getchar() != '\n'); // Clear input buffer
+        while (getchar() != '\n')
+            ; // Clear input buffer
         press_enter();
         return;
     }
 
-    if (id == 0) return;
+    if (id == 0)
+        return;
 
     // Linear search in the pending queue using the global queue from order.h
     OrderNode *order = queue_find_by_id(&g_pending, id);
@@ -44,7 +45,8 @@ void order_preparing(void) {
     printf("\n    Enter your choice: ");
 
     int choice;
-    if (scanf("%d", &choice) != 1) choice = -1;
+    if (scanf("%d", &choice) != 1)
+        choice = -1;
 
     if (choice == 1) {
         // 1. Remove from the pending queue
@@ -60,25 +62,28 @@ void order_preparing(void) {
         printf("+==================================================================================+\n");
         printf("|>> SUCCESS: ORDER #%03d HAS BEEN PREPARING.                                        |\n", id);
         printf("+==================================================================================+\n");
-
-    } else if (choice == 0) {
+    }
+    else if (choice == 0) {
         char yn;
         printf("\n>>  WARNING: ARE YOU SURE YOU WANT TO CANCEL PREPARING FOR ORDER #%03d? (Y/N): ", id);
         scanf(" %c", &yn);
 
         if (yn == 'Y' || yn == 'y') {
             printf("\n>>  PREPARING ORDER #%03d HAS BEEN CANCELLED. RETURNING TO MAIN MENU...\n", id);
-        } else {
+        }
+        else {
             // Restart the function if the user didn't actually want to cancel
             order_preparing();
             return;
         }
-
-    } else {
+    }
+    else {
         printf(">>  INVALID CHOICE.\n");
     }
 
     // Standard wait for user before returning to dashboard
     printf("\n    Press Enter to continue...");
-    while (getchar() != '\n'); getchar();
+    while (getchar() != '\n')
+        ;
+    getchar();
 }

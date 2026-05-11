@@ -13,13 +13,15 @@
 #define STATUS_CANCELLED 5
 
 // Menu item structure
-typedef struct {
+typedef struct
+{
     char code[10];
     char name[50];
     float price;
 } MenuItem;
 
-typedef struct {
+typedef struct
+{
     char code[10];
     char name[30];
     int quantity;
@@ -29,7 +31,8 @@ typedef struct {
 
 // Lesson 3.1: Self-referential structure (Node)
 // This allows the creation of a Singly Linked List
-typedef struct OrderNode {
+typedef struct OrderNode
+{
     int order_id;
     char timestamp[25];
     char prepared_timestamp[25];
@@ -44,7 +47,8 @@ typedef struct OrderNode {
 
 // Lesson 5: Queue Structure (Linked Representation)
 // Uses pointers to the front and rear to maintain FIFO logic
-typedef struct {
+typedef struct
+{
     OrderNode *front; // Points to the first node to be removed
     OrderNode *rear;  // Points to the last node added
     int count;        // Total number of nodes in the queue
@@ -64,18 +68,18 @@ void press_enter(void);
 void get_timestamp(char *buffer, size_t size);
 
 // Menu utilities
-MenuItem* find_menu_item(const char *code);
+MenuItem *find_menu_item(const char *code);
 void display_menu(void);
 void show_menu(void);
 
 // Order node utilities
-OrderNode* create_order_node(void);
+OrderNode *create_order_node(void);
 int get_next_id(void);
 void print_timestamps(OrderNode *order);
 void print_order_summary(OrderNode *order);
 
 // Queue operations
-OrderNode* queue_find_by_id(Queue *queue, int id);
+OrderNode *queue_find_by_id(Queue *queue, int id);
 void queue_remove_node(Queue *queue, int id);
 void queue_enqueue(Queue *queue, OrderNode *node);
 void queue_sort_by_id(Queue *queue);
@@ -83,8 +87,8 @@ void queue_sort_by_timestamp(Queue *queue);
 
 // History linked list operations
 void history_append(OrderNode **head, OrderNode *node);
-OrderNode* history_find_by_id(OrderNode **head, int id);
-OrderNode** get_history_head(void);
+OrderNode *history_find_by_id(OrderNode **head, int id);
+OrderNode **get_history_head(void);
 
 // Main functions from individual files
 void add_order(void);
