@@ -18,6 +18,7 @@ Option     Feature
 
 -Data Structures and Algorithms Used
 Data Structure 1 — Array (Static)
+
 Used in: order.h, add_order.c, utils.c
 Each order can hold up to 50 items. These items are stored inside a fixed-size array called items[50] inside the OrderNode struct.
 When a customer adds an item to their order, it gets placed into the next available slot in that array. 
@@ -25,21 +26,25 @@ The grand total is updated by looping through the array.
 The menu itself (menu_items[] in utils.c) is also a static array that the system searches through every time a staff member enters an item code.
 
 Data Structure 2 — Singly Linked List
+
 Used in: utils.c, history.c, pick_up.c
 When an order is completed (picked up), it is added to a history linked list. Each node points to the next one using a next pointer. 
 New records are appended to the end of the list. The system can also walk through the entire list to display all history or find a specific order.
 
 Data Structure 3 — Queue (Linked Representation)
+
 Used in: utils.c, add_order.c, preparing.c, ready.c, pick_up.c
 There are three queues in the system: Pending, Preparing, and Ready. Each queue follows FIFO (First In, First Out)
 the first order placed is the first to be prepared,and the first prepared is the first to be marked ready.
 
 Algorithm 1 — Linear Search
+
 Used in: utils.c, search.c, preparing.c, ready.c, pick_up.c, history.c
 When a staff member enters an order ID to process it, the system does a linear search 
 it starts from the front of the queue and checks each node one by one until it finds the matching ID or reaches the end.
 
 Algorithm 2 — Bubble Sort
+
 Used in: utils.c, sort_x_display.c
 The Sort & Display feature lets staff sort any of the three queues either by Order ID or by Timestamp, both in ascending order.
 The system uses Bubble Sort — it repeatedly compares two adjacent nodes and swaps their data if they are in the wrong order. It keeps doing this until no more swaps are needed.
