@@ -1,22 +1,20 @@
 JYBON INASAL: Real-Time Order Tracking & Ordering Management System
-
 A console-based restaurant order management system developed in C using Data Structures and Algorithms.
 
 -What is JYBON INASAL: Real-Time Order Tracking & Ordering Management System?
-
 This system helps a restaurant manage orders from start to finish. A staff member can add a new order, track it as it moves
 from Pending → Preparing → Ready → Picked Up, search for any order, sort orders, and view the history of completed orders.
 
 Features
-Option     Feature
-1          Add a new order
-2          Start preparing an order
-3          Move order to ready
-4          Mark order as picked up
-5          Search order by ID
-6          Sort and display orders
-7          View order history
-0          Exit    
+Option       Feature
+1            Add a new order
+2            Start preparing an order
+3            Move order to ready
+4            Mark order as picked up
+5            Search order by ID
+6            Sort and display orders
+7            View order history
+0            Exit    
 
 -Data Structures and Algorithms Used
 Data Structure 1 — Array (Static)
